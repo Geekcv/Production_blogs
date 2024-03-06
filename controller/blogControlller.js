@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const blogModel = require("../models/blogModel");
-const userModel = require("../models/userModel");
+const userModel = require("../Models/userModel");
 
 //GET ALL BLOGS
 exports.getAllBlogsController = async (req, res) => {
   try {
     const blogs = await blogModel.find({}).populate("user");
-    
+
     if (!blogs) {
       return res.status(200).send({
         success: false,
@@ -32,15 +32,15 @@ exports.getAllBlogsController = async (req, res) => {
 //Create Blog
 exports.createBlogController = async (req, res) => {
   try {
-    const { title, description, image ,user } = req.body;
+    const { title, description, image, user } = req.body;
     //validation
-    if (!title || !description || !image || !user ) {
+    if (!title || !description || !image || !user) {
       return res.status(400).send({
         success: false,
         message: "Please Provide ALl Fields",
       });
     }
-    
+
     const exisitingUser = await userModel.findById(user);
     //validaton
     if (!exisitingUser) {
@@ -50,8 +50,8 @@ exports.createBlogController = async (req, res) => {
       });
     }
 
-    const newBlog = new blogModel({ title, description, image,user});
-    
+    const newBlog = new blogModel({ title, description, image, user });
+
     const session = await mongoose.startSession();
     session.startTransaction();
 

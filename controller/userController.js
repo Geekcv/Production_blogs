@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+const userModel = require("../Models/userModel");
 const bcrypt = require("bcrypt");
 //create user register user
 exports.registerController = async (req, res) => {
@@ -13,7 +13,7 @@ exports.registerController = async (req, res) => {
       });
     }
 
-     //exisiting user
+    //exisiting user
     const exisitingUser = await userModel.findOne({ email });
     if (exisitingUser) {
       return res.status(401).send({
@@ -22,19 +22,16 @@ exports.registerController = async (req, res) => {
       });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-     const hashedPassword = await bcrypt.hash(password, 10);
-
-     //save new user
-    const user = new userModel({ username, email, password:hashedPassword });
+    //save new user
+    const user = new userModel({ username, email, password: hashedPassword });
     await user.save();
     return res.status(201).send({
       success: true,
       message: "New User Created",
       user,
     });
-
-
   } catch (error) {
     console.log(error);
     return res.status(500).send({

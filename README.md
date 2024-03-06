@@ -1,2 +1,2 @@
 # Production_blogs
-live url https://blogifywithcv.netlify.app/
+live URL:-> https://blogifywithcv.netlify.app/
